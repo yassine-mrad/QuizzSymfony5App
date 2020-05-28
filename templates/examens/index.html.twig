@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ExamensController!{% endblock %}
+
+{% block body %}
+
+        {% block stylesheets %}
+		<link rel="stylesheet" href=" {{ asset('css/main.css') }} " />
+		<style>
+		a {
+			border:0px
+		}
+		</style>
+		
+		
+		{% endblock %}
+<div class="posts container col-12 m-3">
+{% for examen in examens %}
+<article class="m-3 col-3">
+	<a href="cours.html" class="image"><img src="{{ asset('iset.jpg') }} " alt="" /></a>
+	<h3>{{examen.titre}} </h3>
+	<ul class="actions">
+		<li><a href="{{path('examen',{'id':examen.id})}}" class="button">Passer ce examen</a></li>
+		
+	</ul>
+</article>
+{% endfor %}
+
+
+</div>
+{% endblock %}

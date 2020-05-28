@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+<link href=" {{ asset('css/all.css') }}" rel="stylesheet"> 
+ <script defer src="{{ asset('js/all.js') }}"></script> 
+
+{% endblock %}
+{% block body %}
+
+<div class="container mt-3">
+<h3 style="color:#3cb3b3">Les cours de {{matiere}}</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" style="color:#3cb3b3">Titre</th>
+      <th scope="col" style="color:#3cb3b3">Fichier</th>
+    </tr>
+  </thead>
+  <tbody >
+  {% for cour in cours %}
+    <tr>
+      <th scope="row">{{cour.titre}} </th>
+      <td><a href="{{ '/uploads/' ~ cour.file }} "style="color:#3cb3b3" download >PDF-<i class="fas fa-file-pdf"></i></a></td>
+    </tr>
+ {% endfor %} 
+  </tbody>
+</table> 
+</div>
+{% endblock %}

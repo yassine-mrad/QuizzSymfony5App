@@ -1,0 +1,126 @@
+easy_admin:
+    design:
+        form_theme:
+            - '@EasyAdmin/form/bootstrap_4.html.twig'
+            - '@VichUploader/Form/fields.html.twig' 
+        menu:
+            - { label: 'accuel', route: 'Home'  ,icon: "home" }
+            - {label: "Entities"}
+            - label: "les Classes"
+              children: 
+                    - {entity: Classe,label: "Liste des classe" ,icon: "th-list" }
+                    - {entity: Classe,label: "Ajouter un classe" ,icon: "plus",params: {action: 'new'} }
+            - label: "les Matiere"
+              children: 
+                    - {entity: Matiere,label: "Liste des matiere" ,icon: "th-list" }
+                    - {entity: Matiere,label: "Ajouter un matiere" ,icon: "plus",params: {action: 'new'} }
+            - label: "les Cours"
+              children: 
+                    - {entity: Cours,label: "Liste des cours" ,icon: "th-list" }
+                    - {entity: Cours,label: "Ajouter un cours" ,icon: "plus",params: {action: 'new'} }
+            - label: "les Examen"
+              children: 
+                    - {entity: Examen,label: "Liste des examen" ,icon: "th-list" }
+                    - {entity: Examen,label: "Ajouter un examen" ,icon: "plus",params: {action: 'new'} }
+    #        - label: "les Question"
+    #          children: 
+    #                - {entity: Question,label: "Liste des question" ,icon: "th-list" }
+    #                - {entity: Question,label: "Ajouter un question" ,icon: "plus",params: {action: 'new'} }
+    #        - label: "les Suggestions"
+    #          children: 
+    #                - {entity: Suggestions,label: "Liste des suggestions" ,icon: "th-list" }
+    #                - {entity: Suggestions,label: "Ajouter un suggestions" ,icon: "plus",params: {action: 'new'} }
+            - {label: "Setting"}
+            
+            - label: "les utilisateur"
+              children: 
+                    - {entity: User,label: "Liste des utilisateur" ,icon: "user" }
+                    - { label: 'add user', route: 'security_registration'  ,icon: "plus" }
+    site_name: 'ISET-QUIZZ.com'
+    entities:
+    #    # List the entity class name you want to manage
+        User:              
+            class: App\Entity\User
+            actions:
+                - '-new'
+            form: 
+                fields:
+                    - {type: 'group',icon: 'pencil',label: 'ajouter un Classe'}
+                    - nom
+                    - prenom
+                    
+
+            acme_project:
+                export_path: '%kernel.project_dir/var/export/user'
+                password_encoding: { algorithm: 'bcrypt', cost: 12 }
+
+        Classe:
+            class: App\Entity\Classe
+            label: "Classe"
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'libelle' }
+                    - { property: 'matieres' }
+                    - { property: 'users',label: 'Etudiants' }
+
+            form: 
+                fields:
+                    - {type: 'group',icon: 'pencil',label: 'ajouter un Classe'}
+                    - libelle
+        Matiere:
+            class: App\Entity\Matiere
+            label: "Matiere"
+            form: 
+                fields:
+                    - {type: 'group',icon: 'pencil',label: 'ajouter un Matiere'}
+                    - titre
+                    - classe
+                    - enseignant
+        Cours:
+            list:
+                fields:
+                    # ...
+                    - id
+                    - titre
+                    - { property: 'file', template: 'contract.html.twig', base_path: '%app.path.user_contracts%' }
+            class: App\Entity\Cours
+            label: "Cours"
+            form: 
+                fields:
+                    - {type: 'group',icon: 'pencil',label: 'ajouter un Cours'}
+                    - titre
+                    - matiere
+                    - { property: 'contractFile', type: 'vich_file' , label: 'Choisir le fichier' }
+                    
+        Examen:
+            class: App\Entity\Examen
+            label: "Examen"
+            form: 
+                fields:
+                    - {type: 'group',icon: 'pencil',label: 'ajouter un Examen'}
+                    - titre
+                    - durre
+                    - matiere
+                    - { property: 'questions', label: 'question', type: 'collection', type_options: {entry_type: 'App\Form\QuestionType', by_reference: false} }
+        
+#
+    #        list:
+    #            fields: ['id', 'username', 'email', 'isActive']
+#
+    #        form:
+    #            fields:
+    #                - { type: 'group', label: 'Account Information', icon: 'user', css_class: 'col-sm-12' }
+    #                - prenom
+    #                - nom
+    #                - email
+    #                # if administrators are allowed to edit users' passwords and roles, add this:
+    #                - { property: 'password', type: 'text', type_options: { required: false } }
+    #                - { property: 'role', type: 'choice', type_options: { multiple: false, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+    #    - App\Entity\Classe
+    #    - App\Entity\Matiere
+    #    - App\Entity\User
+    #    - App\Entity\Cours
+    #    - App\Entity\Examen
+    #    - App\Entity\Question
+    #    - App\Entity\Suggestions

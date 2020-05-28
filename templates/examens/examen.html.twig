@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% block title %}examens{% endblock %}
+{% block body %}
+
+<div class="container mt-3" id="ddd">
+{% for question in q %}
+{% if loop.first %} 
+<div><b>durre de cette examen </b><b id="ra" >{{question.examen.durre}}</b><b> minutes : </b><b id="az"> </b></div>
+{% endif %}
+<p>{{question.question}}</p>
+{% set i = 0 %}
+{% for answer in question.suggestions %}
+
+<div>
+  <input type="radio" id="{{answer.id}}" class="reponsee" name="{{answer.question.id}}" value="{{answer.id}}"
+       {% if loop.first %}  checked {% endif %}>
+  <label for="{{answer.id}}">{{answer.suggestions}}</label>
+</div>
+{% set i = i + 1 %}
+{% endfor %}
+{% endfor %}
+<div>
+  <button id="btn" class="btn btn-success">Confirmer</button>
+</div>
+
+
+</div>
+
+
+ 
+
+ {% endblock %}
+         {% block javascripts %}
+            <script src=" {{ asset('js/axios.min.js') }} "></script>
+            <script>
+                    const btn = document.querySelector('#btn');
+        // handle click button
+        btn.onclick = function () {
+            const rbs = document.querySelectorAll('input[class="reponsee"]');
+            let selectedValue;
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    axios.get("/examens/reponses/"+ rb.value).then(function (reponse) {
+                        console.log(reponse.data);
+                    }).catch(error => console.log(error));
+
+                    }
+                    
+        }
+                }
+                document.getElementById("ddd").innerHTML="<h1>Merci pour votre participation !</h1>";
+                location.replace("/home")
+            }
+
+
+
+            	time=0;
+function incriment(){
+	setTimeout(function(){
+		time++;
+		var m =Math.floor(time/10/60);
+		var s =Math.floor(time/10%60);
+		var h =Math.floor(time/10/60/60);
+		var t=time%10;
+    		if (m===(parseInt(document.getElementById("ra").innerHTML))) {
+			          const rbs = document.querySelectorAll('input[class="reponsee"]');
+            let selectedValue;
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    axios.get("/examens/reponses/"+ rb.value).then(function (reponse) {
+                       console.log(reponse.data);
+                    })
+                    
+        }
+                }
+                document.getElementById("ddd").innerHTML="<h1>DSL,le temps d'examan est fini !</h1>";
+                location.replace("/home");
+                
+		}
+		if (m<10) {
+			m="0"+m;
+
+		}
+
+		if (s<10) {
+			s="0"+s;
+		}
+
+		p=h+":"+m+":"+s+":" + t + "0";
+		document.getElementById("az").innerHTML=p;
+		
+		
+		incriment();
+
+	},100)
+}
+
+window.onload=incriment();
+            
+            </script>
+            
+            
+            
+            {% endblock %}

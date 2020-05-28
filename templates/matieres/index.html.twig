@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MatieresController!{% endblock %}
+
+
+{% block body %}
+
+        {% block stylesheets %}
+		<link rel="stylesheet" href=" {{ asset('css/main.css') }} " />
+		<style>
+		a {
+			border:0px
+		}
+		</style>
+		
+		
+		{% endblock %}
+<div class="posts container col-12 m-3">
+{% for matiere in matieres %}
+<article class="m-3 col-3">
+	<a href="cours.html" class="image"><img src="{{ asset('pic_matiere.jpg') }} " alt="" /></a>
+	<h3>{{matiere.titre}} </h3>
+	<ul class="actions">
+		<li><a href="{{path('cours',{'id':matiere.id})}}" class="button">Cours</a></li>
+		<li><a href="{{path('examens',{'id':matiere.id})}}" class="button">Examens</a></li>
+	</ul>
+</article>
+{% endfor %}
+
+
+</div>
+{% endblock %}
